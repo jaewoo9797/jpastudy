@@ -116,5 +116,4 @@ fabric.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij
 
-/codeit-bootcamp-spring/1-sprint-mission/.idea
 .idea
