@@ -4,12 +4,14 @@ import jakarta.persistence.Embeddable;
 import java.util.Objects;
 import java.util.regex.Pattern;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Embeddable
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode
 public class Email {
     private static final String PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
     private static final Pattern EMAIL_PATTERN = Pattern.compile(PATTERN);
@@ -34,23 +36,6 @@ public class Email {
 
     private static boolean isValidEmail(String email) {
         return EMAIL_PATTERN.matcher(email).matches();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Email email1 = (Email) o;
-        return Objects.equals(email, email1.email);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(email);
     }
 
     @Override
