@@ -22,11 +22,11 @@ public class Email {
     }
 
     public static Email of(String email) {
-        isValidOrThrow(email);
+        validOrThrow(email);
         return new Email(email);
     }
 
-    private static void isValidOrThrow(String email) {
+    private static void validOrThrow(String email) {
         Objects.requireNonNull(email, "email must not be null");
         if (!isValidEmail(email)) {
             String format = String.format("Invalid email address: %s", email);
