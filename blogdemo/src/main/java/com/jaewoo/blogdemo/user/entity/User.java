@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -20,6 +21,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class User extends BaseEntity {
 
     @Id
@@ -30,7 +32,7 @@ public class User extends BaseEntity {
     private String username;
 
     // TODO 입력을 받을 때 컨트롤러 레이어에서 입력을 검증하는 validator 를 만들어 검증하자!
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 100)
     private String encryptedPassword;
 
     @Embedded
@@ -43,5 +45,26 @@ public class User extends BaseEntity {
                 .encryptedPassword(encryptedPassword)
                 .build();
     }
+
+    // 유저의 이름을 변경
+    public void changeUsername(String username) {
+        /**
+         *  TODO
+         *  이름을 검증하는 방법에 대해서 생각해보기
+         *  - not null
+         *  - size
+         *  검증로직에 대해서 고민해보기!
+         *  - 매개변수에 hibernate.validator 검증을 한다.
+         *  - 클래스 내부에 검증 로직을 만들어 재사용한다.
+         */
+        this.username = username;
+    }
+
+    // 유저의 비밀번호를 변경
+    public void changePassword(String encryptedPassword) {
+        this.encryptedPassword = encryptedPassword;
+    }
+
+    // 유저의 이메일은 필수, 유니크 한 값.
 }
 
