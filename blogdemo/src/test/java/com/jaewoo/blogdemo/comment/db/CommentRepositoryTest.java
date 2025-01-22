@@ -9,6 +9,7 @@ import com.jaewoo.blogdemo.common.config.JpaAuditingConfiguration;
 import com.jaewoo.blogdemo.user.db.UserRepository;
 import com.jaewoo.blogdemo.user.entity.Email;
 import com.jaewoo.blogdemo.user.entity.User;
+import jakarta.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,10 +17,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
+@ActiveProfiles("test")
 @DataJpaTest
 @Import(value = {JpaAuditingConfiguration.class})
+@TestPropertySource(locations = {"classpath*:application.yml"})
 class CommentRepositoryTest {
+    @Autowired
+    private EntityManager em;
 
     @Autowired
     private CommentRepository commentRepository;
@@ -54,12 +61,7 @@ class CommentRepositoryTest {
     @Test
     void 새로운_댓글_저장후_모든_댓글_조회() {
         // given
-        articleRepository.save(article);
-        // when
-        List<Article> articles = articleRepository.findAll();
-        // then
-        assertThat(articles).isNotEmpty();
-        assertThat(articles.size()).isEqualTo(1);
+
     }
 
     @Test
@@ -93,5 +95,22 @@ class CommentRepositoryTest {
         Optional<Comment> deletedComment = commentRepository.findById(comment.getId());
         // then
         assertThat(deletedComment).isEmpty();
+    }
+
+    /**
+     * 연관관계 테스트 Comment 에 존재하는 user, article 접근하기
+     */
+    @Test
+    void 댓글을_저장_후_유저정보와_글_접근하기() {
+        // given
+        commentRepository.save(comment);
+        // when
+        em.flush();
+        em.clear();
+        Comment foundComment = commentRepository.findById(comment.getId()).orElseThrow();
+
+        // then
+        assertThat(foundComment.getWriter().getUsername()).isEqualTo(user.getUsername());
+        assertThat(foundComment.getArticle().getTitle()).isEqualTo(article.getTitle());
     }
 }

@@ -7,6 +7,7 @@ import com.jaewoo.blogdemo.common.config.JpaAuditingConfiguration;
 import com.jaewoo.blogdemo.user.db.UserRepository;
 import com.jaewoo.blogdemo.user.entity.Email;
 import com.jaewoo.blogdemo.user.entity.User;
+import jakarta.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
@@ -21,8 +22,10 @@ import org.springframework.test.context.TestPropertySource;
 @ActiveProfiles("test")
 @DataJpaTest
 @Import(JpaAuditingConfiguration.class)
-@TestPropertySource(locations = {"classpath*:application.yaml"})
+@TestPropertySource(locations = {"classpath*:application.yml"})
 class ArticleRepositoryTest {
+    @Autowired
+    private EntityManager entityManager;
 
     @Autowired
     private ArticleRepository articleRepository;
@@ -112,4 +115,26 @@ class ArticleRepositoryTest {
         // then
         assertThat(articleOptional).isEmpty();
     }
+
+    /**
+     * 연관관계 테스트
+     */
+    // 1. Article 엔티티에서 user 필드를 통해 User 데이터를 저장하고 조회하는 테스트
+    // 2. fetch 전략 Lazy, Eager 동작 방식 확인
+    @Test
+    void 글을_저장하고_조회후_유저의_정보에_대해서_접근() {
+        //given
+        articleRepository.save(article);
+
+        // when
+        entityManager.flush();
+        entityManager.clear();
+
+        Article fetchedArticle = articleRepository.findById(article.getId()).orElseThrow();
+
+        // then
+        assertThat(fetchedArticle.getUser().getUsername()).isEqualTo("김길동");
+        System.out.println(fetchedArticle.getUser().getUsername());
+    }
+
 }

@@ -1,7 +1,9 @@
 package com.jaewoo.blogdemo.article.entity;
 
+import com.jaewoo.blogdemo.comment.entity.Comment;
 import com.jaewoo.blogdemo.common.baseentity.BaseEntity;
 import com.jaewoo.blogdemo.user.entity.User;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,6 +11,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,6 +41,9 @@ public class Article extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Comment> comments = new ArrayList<>();
+
     public static Article create(String title, String content, User author) {
 
         return Article.builder()
@@ -51,5 +59,10 @@ public class Article extends BaseEntity {
 
     public void changeContent(String content) {
         this.content = content;
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
+
     }
 }

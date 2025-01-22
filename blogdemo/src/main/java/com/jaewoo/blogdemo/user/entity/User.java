@@ -32,7 +32,7 @@ public class User extends BaseEntity {
     private String username;
 
     // TODO 입력을 받을 때 컨트롤러 레이어에서 입력을 검증하는 validator 를 만들어 검증하자!
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 100, name = "password")
     private String encryptedPassword;
 
     @Embedded

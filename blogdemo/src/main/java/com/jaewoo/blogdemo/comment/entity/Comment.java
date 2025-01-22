@@ -41,7 +41,6 @@ public class Comment extends BaseEntity {
     private Article article;
 
     public static Comment create(String content, User writer, Article article) {
-
         return Comment.builder()
                 .content(content)
                 .writer(writer)
@@ -51,5 +50,12 @@ public class Comment extends BaseEntity {
 
     public void changeContent(String content) {
         this.content = content;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
+        if (!article.getComments().contains(this)) {
+            article.getComments().add(this);
+        }
     }
 }
