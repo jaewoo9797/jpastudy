@@ -1,7 +1,6 @@
 package com.jaewoo.blogdemo.comment.db;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jaewoo.blogdemo.article.db.ArticleRepository;
 import com.jaewoo.blogdemo.article.entity.Article;
@@ -10,10 +9,8 @@ import com.jaewoo.blogdemo.common.config.JpaAuditingConfiguration;
 import com.jaewoo.blogdemo.user.db.UserRepository;
 import com.jaewoo.blogdemo.user.entity.Email;
 import com.jaewoo.blogdemo.user.entity.User;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +18,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
 @DataJpaTest
-@Import(value= {JpaAuditingConfiguration.class})
+@Import(value = {JpaAuditingConfiguration.class})
 class CommentRepositoryTest {
 
     @Autowired
