@@ -19,12 +19,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Entity
+@ToString
 public class Article extends BaseEntity {
 
     @Id
@@ -42,7 +44,7 @@ public class Article extends BaseEntity {
     private User user;
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<Comment> comments = new ArrayList<>();
+    private final List<Comment> comments = new ArrayList<>();
 
     public static Article create(String title, String content, User author) {
 
@@ -63,6 +65,6 @@ public class Article extends BaseEntity {
 
     public void addComment(Comment comment) {
         this.comments.add(comment);
-
+        comment.setArticle(this);
     }
 }
