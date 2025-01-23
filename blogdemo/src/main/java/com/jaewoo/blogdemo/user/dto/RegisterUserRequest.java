@@ -8,7 +8,7 @@ public record RegisterUserRequest(
         String username,
         @Email
         String email,
-        @NotBlank   // TODO 어노테이션 만들어보기
+        @NotBlank
         String password
 ) {
 }

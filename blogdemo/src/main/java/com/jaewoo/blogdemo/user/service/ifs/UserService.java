@@ -5,18 +5,23 @@ import com.jaewoo.blogdemo.user.dto.CheckPasswordRequest;
 import com.jaewoo.blogdemo.user.dto.LoginUserRequest;
 import com.jaewoo.blogdemo.user.dto.RegisterUserRequest;
 import com.jaewoo.blogdemo.user.entity.User;
+import org.springframework.data.domain.Pageable;
 
 public interface UserService {
 
-    // 새로운 유저의 회원가입
     void register(RegisterUserRequest registerUserRequest);
-    // 유저의 정보를 수정
+
     void changePassword(User user, ChangePasswordRequest request);
-    // 유저의 정보를 조회
+
     void login(LoginUserRequest request);
-    // 유저의 정보를 삭제
+
     void unregister();
 
-    // 유저의 정보를 변경하기 전 비밀번호 체크
-    void checkUserPassword(User user, CheckPasswordRequest request);
+    void matchUserPassword(User user, CheckPasswordRequest request);
+
+    // 유저가 작성한 article 조회 - 페이징 조건을 어떻게 줄까? pageable 이용하자.
+    void findUserWritingArticleWithPagination(User user, Pageable pageable);
+
+    // 유저가 작성한 댓글 - 페이징, article 제목도 알아야 하지 않을까?
+
 }
