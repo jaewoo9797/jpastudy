@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
+    // 기술 부족으로 남겨둔다..
     @Override
     public void findUserWritingArticleWithPagination(User user, Pageable pageable) {
         Long id = user.getId();

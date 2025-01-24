@@ -1,9 +1,12 @@
 package com.jaewoo.blogdemo.user.entity;
 
 import com.jaewoo.blogdemo.common.baseentity.BaseEntity;
+import com.jaewoo.blogdemo.user.entity.enums.UserStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,6 +34,10 @@ public class User extends BaseEntity {
     @Column(nullable = false, length = 50)
     private String username;
 
+    @Column(nullable = false, length = 50)
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
+
     // TODO 입력을 받을 때 컨트롤러 레이어에서 입력을 검증하는 validator 를 만들어 검증하자!
     @Column(nullable = false, length = 100, name = "password")
     private String encryptedPassword;
@@ -41,6 +48,7 @@ public class User extends BaseEntity {
     public static User create(String username, Email email, String encryptedPassword) {
         return User.builder()
                 .username(username)
+                .status(UserStatus.REGISTERED)
                 .email(email)
                 .encryptedPassword(encryptedPassword)
                 .build();

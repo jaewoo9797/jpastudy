@@ -10,15 +10,19 @@ import com.jaewoo.blogdemo.user.entity.User;
 import jakarta.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
-
+@Slf4j
 @ActiveProfiles("test")
 @DataJpaTest
 @Import(JpaAuditingConfiguration.class)
@@ -137,4 +141,28 @@ class ArticleRepositoryTest {
         System.out.println(fetchedArticle.getUser().getUsername());
     }
 
+    @Test
+    void testMethodNameHere() {
+        //given
+        for (int i = 1; i <= 10; i++) {
+            article =
+                    Article.create(
+                            "test title" + i,
+                            "test content" + i,
+                            user);
+            articleRepository.save(article);
+        }
+        PageRequest pageRequest = PageRequest.of(0, 5);
+        // when
+        entityManager.flush();
+        entityManager.clear();
+        System.out.println("=============================================");
+        Page<Long> articleIdsByUserId = articleRepository.findArticleIdsByUserId(user.getId(), pageRequest);
+        System.out.println("=============================================");
+        List<Article> articlesWithDetailsByIds = articleRepository.findArticlesWithDetailsByIds(
+                articleIdsByUserId.getContent());
+        System.out.println("=============================================");
+        // then
+        articlesWithDetailsByIds.forEach(article -> log.info("{}, {}", article.getTitle(), article.getUser().getUsername()));
+    }
 }
