@@ -1,6 +1,5 @@
 package com.jaewoo.blogdemo.user.service;
 
-import com.jaewoo.blogdemo.common.auth.Encryptor;
 import com.jaewoo.blogdemo.user.db.UserRepository;
 import com.jaewoo.blogdemo.user.dto.ChangePasswordRequest;
 import com.jaewoo.blogdemo.user.dto.CheckPasswordRequest;
@@ -11,6 +10,8 @@ import com.jaewoo.blogdemo.user.entity.User;
 import com.jaewoo.blogdemo.user.service.ifs.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,14 +20,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final Encryptor encryptor;
+    private final BCryptPasswordEncoder passwordEncoder;
     // 유저 객체를 principle 등 어떻게 객체로 받아온다고 가정하고 코딩해보자.
 
     @Override
     public void register(RegisterUserRequest request) {
 
         User registerUser =
-                toEntity(request.username(), encryptor.encrypt(request.password()), request.email());
+                toEntity(request.username(), passwordEncoder.encode(request.password()), request.email());
 
         User savedUser = userRepository.save(registerUser);
         // TODO 저장 후 저장된 객체를 리턴해야 하는 이유 알아보자
@@ -36,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void changePassword(User user, ChangePasswordRequest request) {
-        user.changePassword(encryptor.encrypt(request.changePassword()));
+        user.changePassword(passwordEncoder.encode(request.changePassword()));
         userRepository.save(user);
     }
 
@@ -48,7 +49,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public void login(LoginUserRequest request) {
         User founduser = userRepository.findByEmail(Email.of(request.email()))
-                .filter(it -> encryptor.matches(request.password(), it.getEncryptedPassword()))
+                .filter(it -> passwordEncoder.matches(request.password(), it.getEncryptedPassword()))
                 // TODO 유저 커스텀 예외 만들어서 예외 발생시키기
                 .orElseThrow(IllegalArgumentException::new);
         // 로직 추가해서 로그인 기능 구현하기
@@ -69,7 +70,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void matchUserPassword(User user, CheckPasswordRequest request) {
-        boolean matchesResult = encryptor.matches(request.password(), user.getEncryptedPassword());
+        boolean matchesResult = passwordEncoder.matches(request.password(), user.getEncryptedPassword());
         if (!matchesResult) {
             throw new RuntimeException("비밀번호가 틀렸습니다.");
         }
@@ -84,7 +85,7 @@ public class UserServiceImpl implements UserService {
 
     private User toEntity(String username, String password, String email) {
         Email inputEmail = Email.of(email);
-        String encryptedPassword = encryptor.encrypt(password);
+        String encryptedPassword = passwordEncoder.encode(password);
         return User.create(username, inputEmail, encryptedPassword);
     }
 }
