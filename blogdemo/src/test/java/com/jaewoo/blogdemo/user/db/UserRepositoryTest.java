@@ -2,11 +2,11 @@ package com.jaewoo.blogdemo.user.db;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.jaewoo.blogdemo.common.auth.Encryptor;
-import com.jaewoo.blogdemo.common.auth.PasswordEncryptor;
+import com.jaewoo.blogdemo.common.auth.config.WebSecurityConfig;
 import com.jaewoo.blogdemo.common.config.JpaAuditingConfiguration;
 import com.jaewoo.blogdemo.user.entity.Email;
 import com.jaewoo.blogdemo.user.entity.User;
+import jakarta.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,10 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("test")
 @DataJpaTest
-@Import({JpaAuditingConfiguration.class, PasswordEncryptor.class})
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import({JpaAuditingConfiguration.class, WebSecurityConfig.class})
 class UserRepositoryTest {
     private static final String username = "hong";
     private static final String password = "~Hong123";
@@ -27,13 +29,15 @@ class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private Encryptor passwordEncryptor;
+    private PasswordEncoder passwordEncryptor;
 
+    @Autowired
+    private EntityManager entityManager;
     private User user;
 
     @BeforeEach
     void setUp() {
-        var encryptedPassword = passwordEncryptor.encrypt(password);
+        var encryptedPassword = passwordEncryptor.encode(password);
         user = User.create(username, Email.of(email), encryptedPassword);
     }
 
@@ -42,7 +46,8 @@ class UserRepositoryTest {
         // given
         // when
         User savedUser = userRepository.save(user);
-
+        entityManager.flush();
+        entityManager.clear();
         // then
         assertThat(savedUser).isNotNull();
         assertThat(savedUser.getId()).isGreaterThan(0);
