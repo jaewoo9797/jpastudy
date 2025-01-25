@@ -33,7 +33,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public void updateComment(User writer, UpdateCommentRequest request) {
-        Comment comment = commentRepository.findByIdAndArticleIdAndUserId(request.articleId(), writer.getId())
+        Comment comment = commentRepository.findByArticleIdAndWriterId(request.articleId(), writer.getId())
                 .orElseThrow();
         comment.updateComment(request.updateComment());
     }
