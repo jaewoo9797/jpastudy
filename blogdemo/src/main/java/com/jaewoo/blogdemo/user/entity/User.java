@@ -73,6 +73,8 @@ public class User extends BaseEntity {
         this.encryptedPassword = encryptedPassword;
     }
 
-    // 유저의 이메일은 필수, 유니크 한 값.
+    public void unregister() {
+        this.status = UserStatus.UNREGISTERED;
+    }
 }
 

@@ -2,6 +2,7 @@ package com.jaewoo.blogdemo.user.db;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.jaewoo.blogdemo.common.auth.config.WebSecurityConfig;
 import com.jaewoo.blogdemo.common.config.JpaAuditingConfiguration;
 import com.jaewoo.blogdemo.user.entity.Email;
 import com.jaewoo.blogdemo.user.entity.User;
@@ -19,8 +20,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("test")
 @DataJpaTest
-@Import({JpaAuditingConfiguration.class, PasswordEncryptor.class})
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import({JpaAuditingConfiguration.class, WebSecurityConfig.class})
 class UserRepositoryTest {
     private static final String username = "hong";
     private static final String password = "~Hong123";
