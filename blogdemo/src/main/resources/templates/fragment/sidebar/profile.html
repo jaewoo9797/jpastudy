@@ -2,12 +2,6 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <body>
 <div th:fragment="fragment-profile" class="sidebar__profile">
-    <!--
-    1. 프로필 이미지 - 인스타 처럼 꾸미면 괜찮을 듯
-    2. 이름 및 정보
-    3. 간단한 소개 : 웹 개발자
-    4. 연락처 링크 : 깃헙
-    -->
     <div class="mb-3">
         <img src="/images/woojae-picture.png"
              class="img-thumbnail rounded-circle img-fluid"
@@ -22,9 +16,20 @@
     </p>
     <div>
         <a href="https://github.com/jaewoo9797"
-           class="text-decoration-none me-2 github-link"
+           class="text-decoration-none github-link"
            target="_blank">
-            <i class="bi bi-github"></i>GitHub
+            <span class="link-container">
+                <i class="bi bi-github"></i>GitHub
+            </span>
+        </a>
+    </div>
+    <div>
+        <a href="mailto:9712jw@gmail.com"
+           class="text-decoration-none email-link"
+           target="_blank">
+            <span class="link-container">
+                <i class="bi bi-envelope"></i>Email
+            </span>
         </a>
     </div>
 </div>

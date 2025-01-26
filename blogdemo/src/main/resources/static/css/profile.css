@@ -7,3 +7,27 @@
 .github-link:hover {
     color: #0366d6;
 }
+
+.email-link {
+    color: #64b5f6;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.email-link:hover {
+    color: #42a5f5;
+}
+
+.link-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column-reverse;
+    gap: 8px;
+}
+
+.link-container i {
+    font-size: 1.2rem;
+    margin:0;
+}
