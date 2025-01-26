@@ -4,7 +4,7 @@ body {
     height: 100vh;
 }
 
-.container {
+.custom-container {
     display: flex;
     width: 100%;
 }
@@ -29,7 +29,6 @@ body {
 .sidebar__profile {
     width: 90%;
     height: auto;
-    background-color: #007bff;
     padding: 20px;
     margin-bottom: 20px;
     text-align: center;
