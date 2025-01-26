@@ -1,33 +1,14 @@
-.github-link {
-    color: #24292f;
+.github-link,
+.email-link {
     font-weight: bold;
     transition: color 0.3s ease;
+    text-align: center;
 }
 
 .github-link:hover {
-    color: #0366d6;
-}
-
-.email-link {
-    color: #64b5f6;
-    font-weight: bold;
-    font-size: 1rem;
-    transition: color 0.3s ease;
+    color: #ffc107 !important;
 }
 
 .email-link:hover {
-    color: #42a5f5;
-}
-
-.link-container {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-direction: column-reverse;
-    gap: 8px;
-}
-
-.link-container i {
-    font-size: 1.2rem;
-    margin:0;
+    color: #ffc107 !important;
 }
