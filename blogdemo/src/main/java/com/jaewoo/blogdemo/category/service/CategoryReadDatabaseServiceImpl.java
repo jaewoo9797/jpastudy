@@ -15,6 +15,7 @@ public class CategoryReadDatabaseServiceImpl implements CategoryReadService {
 
     private final CategoryRepository categoryRepository;
     private final CategoryConverter converter;
+
     @Override
     public List<CategoryResponse> findCategoryAll() {
         List<Category> categoryList = categoryRepository.findAll();
