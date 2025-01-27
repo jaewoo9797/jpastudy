@@ -22,11 +22,12 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring()
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
                 .requestMatchers(PathRequest.toH2Console())
-        ;
+                .requestMatchers("/fonts/**", "/images/**");
     }
 
     @Bean
