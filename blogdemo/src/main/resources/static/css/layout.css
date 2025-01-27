@@ -28,6 +28,11 @@ body {
     height: auto;
     padding: 20px;
     text-align: center;
+    /*d추가*/
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .sidebar__category {

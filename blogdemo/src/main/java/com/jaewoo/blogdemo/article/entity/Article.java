@@ -1,6 +1,7 @@
 package com.jaewoo.blogdemo.article.entity;
 
 import com.jaewoo.blogdemo.article.entity.enums.ArticleStatus;
+import com.jaewoo.blogdemo.category.entity.Category;
 import com.jaewoo.blogdemo.comment.entity.Comment;
 import com.jaewoo.blogdemo.common.baseentity.BaseEntity;
 import com.jaewoo.blogdemo.user.entity.User;
@@ -51,6 +52,10 @@ public class Article extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Comment> comments = new ArrayList<>();
 
@@ -63,6 +68,18 @@ public class Article extends BaseEntity {
                 .user(author)
                 .build();
     }
+
+    public static Article create(String title, String content, User user, Category category) {
+
+        return Article.builder()
+                .title(title)
+                .status(ArticleStatus.REGISTERED)
+                .content(content)
+                .user(user)
+                .category(category)
+                .build();
+    }
+
     public static Article createForUpdate(Long articleId, String title, String content) {
 
         return Article.builder()
