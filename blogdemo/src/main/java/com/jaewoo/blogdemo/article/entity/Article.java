@@ -44,7 +44,6 @@ public class Article extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ArticleStatus status;
 
-    // TODO 텍스트 컬럼이라는게 있었음. 글자 수가 많을 경우 + 마크 다운이라던지 이미지 등등 요구사항 추가될 수 있음
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
@@ -53,14 +52,13 @@ public class Article extends BaseEntity {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Comment> comments = new ArrayList<>();
 
     public static Article create(String title, String content, User author) {
-
         return Article.builder()
                 .title(title)
                 .status(ArticleStatus.REGISTERED)
@@ -110,4 +108,5 @@ public class Article extends BaseEntity {
         this.comments.add(comment);
         comment.setArticle(this);
     }
+
 }
