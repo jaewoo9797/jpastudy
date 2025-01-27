@@ -32,6 +32,9 @@ public class Category extends BaseEntity {
     @Column(nullable = false, length = 55)
     private String name;
 
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Article> articles = new ArrayList<>();
+
     public static Category of(String name) {
         return Category.builder()
                 .name(name)
