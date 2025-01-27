@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      lang="ko"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head th:replace="~{/common/header :: header-config}"></head>
+<body data-bs-theme="dark">
+<div th:replace="~{fragment/nav/nav :: nav-fragment}"></div>
+<div class="custom-container">
+    <div th:replace="~{fragment/sidebar/sidebar :: side-fragment}"></div>
+    <div class="content" layout:fragment="content"></div>
+</div>
+
+</body>
+</html>

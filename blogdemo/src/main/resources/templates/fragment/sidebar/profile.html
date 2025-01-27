@@ -1,0 +1,30 @@
+<div th:fragment="fragment-profile" class="sidebar__profile">
+    <div class="mb-3 profile-image">
+        <img src="/images/woojae-picture.png"
+             class="img-thumbnail rounded-circle img-fluid"
+             alt="Profile"
+        >
+    </div>
+    <h5 class="fw-bold">백재우</h5>
+    <p class="text-muted mb-3">웹 백엔드 개발자</p>
+    <p class="small">
+        hi there 👋 <br/>welcome my tech blog
+    </p>
+    <div class="d-flex flex-column align-items-center mb-2">
+        <a href="https://github.com/jaewoo9797"
+           class="text-decoration-none text-light github-link"
+           target="_blank">
+            <i class="bi bi-github text-light fs-5 me-2"></i>
+            <span>GitHub</span>
+        </a>
+    </div>
+    <!-- 이메일 링크 -->
+    <div class="d-flex flex-column align-items-center">
+        <a href="mailto:9712jw@gmail.com"
+           class="text-decoration-none text-info email-link"
+           target="_blank">
+            <i class="bi bi-envelope text-info fs-5 me-2"></i>
+            <span class="mt-2">Email</span>
+        </a>
+    </div>
+</div>

@@ -16,7 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
-
+    private static final String[] permitAllUrls = {"/login/**", "open-api/**", "/"};
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -37,7 +37,7 @@ public class WebSecurityConfig {
                 .headers(headerConfig ->
                         headerConfig.frameOptions(FrameOptionsConfig::disable))
                 .authorizeHttpRequests(request ->
-                        request.requestMatchers("/**", "/login/**", "/user/**").permitAll()
+                        request.requestMatchers(permitAllUrls).permitAll()
                                 .anyRequest().authenticated()
                 );
 
