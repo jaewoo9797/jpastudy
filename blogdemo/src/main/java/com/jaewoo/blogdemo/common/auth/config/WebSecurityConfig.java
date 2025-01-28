@@ -16,7 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
-    private static final String[] permitAllUrls = {"/login/**", "open-api/**", "/"};
+    private static final String[] permitAllUrls = {"/login/**", "/open-api/**", "/"};
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

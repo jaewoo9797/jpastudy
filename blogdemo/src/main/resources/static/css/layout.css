@@ -37,7 +37,6 @@ body {
 
 .sidebar__category {
     width: 90%;
-    background-color: #ffffff;
     padding: 20px;
     border: 1px solid #ddd;
     flex-grow: 1;
