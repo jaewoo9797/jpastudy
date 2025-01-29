@@ -29,5 +29,11 @@ public class WebConfig implements WebMvcConfigurer {
         // 이미지 파일 처리 (예: /images/logo.png 요청 처리)
         registry.addResourceHandler("/images/**")
                 .addResourceLocations("classpath:/static/images/");
+
+        // 정적 파일 캐싱
+        registry.addResourceHandler("/static/**")
+                .addResourceLocations("classpath:/static/")
+                .setCachePeriod(3600);  // 1시간 = 60 * 60
     }
+
 }

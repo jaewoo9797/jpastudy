@@ -16,7 +16,7 @@ public class CategoryReadController {
 
     private final CategoryQueryService categoryReadService;
 
-    @GetMapping("/all-count")
+    @GetMapping("/all")
     public ResponseEntity<List<CategoryNameAndCountArticle>> findAllCount() {
         List<CategoryNameAndCountArticle> categoryNameAndCountArticle = categoryReadService.findCategoryNameAndCountArticle();
         return ResponseEntity.ok(categoryNameAndCountArticle);
