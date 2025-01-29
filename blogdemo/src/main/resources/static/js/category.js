@@ -13,6 +13,7 @@ async function getCategoryJson() {
 
 function renderCategoryList(data) {
     const categoryList = document.getElementById("category-list");
+    categoryList.innerHTML = "";
 
     if (!data || data.length === 0) {
         categoryList.innerHTML = "<li>No categories found</li>"
@@ -21,7 +22,26 @@ function renderCategoryList(data) {
 
     data.forEach(category => {
         const li = document.createElement("li");
-        li.textContent = `${category.category_name} (${category.article_count})`
+        li.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-start")
+
+        const divContainer = document.createElement("div");
+        divContainer.classList.add("ms-2", "me-auto");
+
+        const categoryLink = document.createElement("a");
+        categoryLink.classList.add("fw-bold", "text-decoration-none");
+        categoryLink.textContent = category.category_name;
+        categoryLink.href = '#';    //TODO 링크 설정해주기
+        categoryLink.target = "_self";
+
+        const spanBadge = document.createElement("span");
+        spanBadge.classList.add("badge", "text-bg-warning", "rounded-pill");
+        spanBadge.textContent = category.article_count;
+
+        divContainer.appendChild(categoryLink);
+
+        li.appendChild(divContainer);
+        li.appendChild(spanBadge)
+
         categoryList.appendChild(li);
     })
 }
